@@ -575,13 +575,13 @@ const controlRecipes = async function() {
         // 2. rendering recipe
         (0, _recipeViewDefault.default).render(_model.state.recipe);
     } catch (error) {
-        alert(error);
+        console.log(error);
     }
 };
-[
-    "hash",
-    "load"
-].forEach((ev)=>window.addEventListener(ev, controlRecipes));
+const init = function() {
+    (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+};
+init();
 
 },{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model":"Y4A21","./views/recipeView":"l60JC"}],"gSXXb":[function(require,module,exports) {
 var global = require("5b8ac83aa211b6a1");
@@ -2682,6 +2682,12 @@ class RecipeView {
     `;
         this.#parentElement.innerHTML = "";
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    addHandlerRender(handler) {
+        [
+            "hash",
+            "load"
+        ].forEach((ev)=>window.addEventListener(ev, handler));
     }
     #generateMarkup() {
         return `
