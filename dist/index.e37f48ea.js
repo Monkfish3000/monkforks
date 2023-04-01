@@ -575,7 +575,7 @@ const controlRecipes = async function() {
         // 2. rendering recipe
         (0, _recipeViewDefault.default).render(_model.state.recipe);
     } catch (error) {
-        console.log(error);
+        (0, _recipeViewDefault.default).renderError();
     }
 };
 const init = function() {
@@ -2597,6 +2597,8 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 var _helpers = require("./helpers");
+var _recipeView = require("./views/recipeView");
+var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
 const state = {
     recipe: {}
 };
@@ -2617,10 +2619,11 @@ const loadRecipe = async function(id) {
         console.log(state.recipe);
     } catch (error) {
         console.error(`🚧${error}🚧`);
+        throw error;
     }
 };
 
-},{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E","./views/recipeView":"l60JC"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
@@ -2663,6 +2666,8 @@ var _fractional = require("fractional");
 class RecipeView {
     #parentElement = document.querySelector(".recipe");
     #data;
+    #errormessage = "Recipe not found. Please try a different recipe.";
+    #message = "";
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
@@ -2680,7 +2685,32 @@ class RecipeView {
         </svg>
       </div>
     `;
-        this.#parentElement.innerHTML = "";
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderError(message = this.#errormessage) {
+        const markup = `<div class="error">
+    <div>
+      <svg>
+        <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+      </svg>
+    </div>
+    <p>${message}</p>
+  </div>`;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderMessage(message = this.#message) {
+        const markup = `<div class="recipe">
+    <div class="message">
+      <div>
+        <svg>
+          <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>`;
+        this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     addHandlerRender(handler) {
