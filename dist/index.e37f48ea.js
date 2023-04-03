@@ -578,6 +578,15 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderError();
     }
 };
+const controlSearchResults = async function() {
+    try {
+        await _model.loadSearchResults("pizza");
+        console.log(_model.state.search.results);
+    } catch (error) {
+        console.log(error);
+    }
+};
+controlSearchResults();
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
 };
@@ -2601,7 +2610,11 @@ var _helpers = require("./helpers");
 var _recipeView = require("./views/recipeView");
 var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
 const state = {
-    recipe: {}
+    recipe: {},
+    search: {
+        query: "",
+        results: []
+    }
 };
 const loadRecipe = async function(id) {
     try {
@@ -2625,14 +2638,22 @@ const loadRecipe = async function(id) {
 };
 const loadSearchResults = async function(query) {
     try {
+        state.search.query = query;
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
         console.log(data);
+        state.search.results = data.data.recipes.map((recipe)=>{
+            return {
+                id: recipe.id,
+                title: recipe.title,
+                publisher: recipe.publisher,
+                image: recipe.image_url
+            };
+        });
     } catch (error) {
         console.error(`🚧${error}🚧`);
         throw error;
     }
 };
-loadSearchResults("pizza");
 
 },{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E","./views/recipeView":"l60JC"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
