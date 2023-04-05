@@ -568,6 +568,7 @@ var _searchViewDefault = parcelHelpers.interopDefault(_searchView);
 var _resultsView = require("./views/resultsView");
 var _resultsViewDefault = parcelHelpers.interopDefault(_resultsView);
 var _runtime = require("regenerator-runtime/runtime");
+if (module.hot) module.hot.accept();
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
@@ -587,7 +588,6 @@ const controlSearchResults = async function() {
         const query = (0, _searchViewDefault.default).getQuery();
         if (!query) return;
         await _model.loadSearchResults(query);
-        console.log(_model.state.search.results);
         (0, _resultsViewDefault.default).render(_model.state.search.results);
     // searchView.clearInput();
     } catch (error) {
@@ -2711,7 +2711,7 @@ class RecipeView extends (0, _viewDefault.default) {
     _message = "";
     addHandlerRender(handler) {
         [
-            "hash",
+            "hashchange",
             "load"
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
@@ -2753,11 +2753,6 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
         </div>
 
-        <div class="recipe__user-generated">
-          <svg>
-            <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
-          </svg>
-        </div>
         <button class="btn--round">
           <svg class="">
             <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
@@ -3176,29 +3171,26 @@ exports.default = new SearchView();
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
 class ResultsView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".results");
     _generateMarkup() {
-        return this._data.map(this.__generateMarkupPreview).join("");
+        return this._data.map(this._generateMarkupPreview).join("");
     }
-    __generateMarkupPreview(result) {
+    _generateMarkupPreview(result) {
         const { id , image , title , publisher  } = result;
         return `
     <li class="preview">
-        <a class="preview__link preview__link--active" href="#${id}">
+        <a class="preview__link" href="#${id}">
           <figure class="preview__fig">
             <img src=${image} alt=${title} />
           </figure>
             <div class="preview__data">
                 <h4 class="preview__title">${title}</h4>
                 <p class="preview__publisher">${publisher}</p>
-            <div class="preview__user-generated">
-              <svg>
-                <use href="src/img/icons.svg#icon-user"></use>
-              </svg>
-            </div>
           </div>
         </a>
     </li>
@@ -3207,6 +3199,6 @@ class ResultsView extends (0, _viewDefault.default) {
 }
 exports.default = new ResultsView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d8XZh","aenu9"], "aenu9", "parcelRequire0623")
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp"}]},["d8XZh","aenu9"], "aenu9", "parcelRequire0623")
 
 //# sourceMappingURL=index.e37f48ea.js.map
