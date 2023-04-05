@@ -4,6 +4,8 @@ import View from './View';
 
 class ResultsView extends View {
   _parentElement = document.querySelector('.results');
+  _errormessage = 'No recipes found. Please search for different recipe.';
+  _message = '';
 
   _generateMarkup() {
     return this._data.map(this._generateMarkupPreview).join('');
