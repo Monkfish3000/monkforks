@@ -590,7 +590,7 @@ const controlSearchResults = async function() {
         await _model.loadSearchResults(query);
         // resultsView.render(model.state.search.results);
         // searchView.clearInput();
-        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage(1));
+        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
     } catch (error) {
         console.log(error);
     }
@@ -2624,6 +2624,7 @@ const state = {
     search: {
         query: "",
         results: [],
+        page: 1,
         resultsPerPage: (0, _config.RES_PER_PAGE)
     }
 };
@@ -2665,7 +2666,8 @@ const loadSearchResults = async function(query) {
         throw error;
     }
 };
-const getSearchResultsPage = function(page) {
+const getSearchResultsPage = function(page = state.search.page) {
+    state.search.page = page;
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end);
