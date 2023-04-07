@@ -5,6 +5,7 @@ import resultsView from './views/resultsView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import paginationView from './views/paginationView';
 
 if (module.hot) {
   module.hot.accept();
@@ -37,13 +38,22 @@ const controlSearchResults = async function () {
     // resultsView.render(model.state.search.results);
     // searchView.clearInput();
     resultsView.render(model.getSearchResultsPage());
+
+    paginationView.render(model.state.search);
   } catch (error) {
     console.log(error);
   }
 };
 
+const controlPagination = function (page) {
+  resultsView.render(model.getSearchResultsPage(page));
+
+  paginationView.render(model.state.search);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 init();
