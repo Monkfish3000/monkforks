@@ -598,9 +598,13 @@ const controlSearchResults = async function() {
         console.log(error);
     }
 };
+const controlPagination = function() {
+    console.log("Pageination controller");
+};
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _searchViewDefault.default).addHandlerSearch(controlSearchResults);
+    (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
 };
 init();
 
@@ -3227,6 +3231,13 @@ var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
 class PaginationView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".pagination");
+    addHandlerClick(handler) {
+        this._parentElement.addEventListener("click", function(event) {
+            const btn = event.target.closest(".btn--inline");
+            console.log(btn);
+            handler();
+        });
+    }
     _generateMarkup() {
         const currentPage = this._data.page;
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
