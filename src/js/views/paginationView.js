@@ -13,7 +13,14 @@ class PaginationView extends View {
     console.log(numPages);
     // Page 1, more pages
     if (currentPage === 1 && numPages > 1) {
-      return 'page 1 of many';
+      return `
+        <button class="btn--inline pagination__btn--next">
+            <span>Page 2</span>
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-right"></use>
+            </svg>
+        </button>
+      `;
     }
     // Last page
     if (currentPage === numPages && numPages > 1) {
@@ -27,10 +34,23 @@ class PaginationView extends View {
     }
     // Other page
     if (currentPage < numPages) {
-      return 'other page';
+      return `
+        <button class="btn--inline pagination__btn--next">
+            <span>Page ${currentPage + 1}</span>
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-right"></use>
+            </svg>
+        </button>
+        <button class="btn--inline pagination__btn--prev">
+            <svg class="search__icon">
+                <use href="${icons}#icon-arrow-left"></use>
+            </svg>
+            <span>Page ${currentPage - 1}</span>
+        </button>
+      `;
     }
     // Page 1, only 1 page
-    return 'only 1 page';
+    return '';
   }
 }
 

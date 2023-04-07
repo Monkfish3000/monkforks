@@ -3232,7 +3232,14 @@ class PaginationView extends (0, _viewDefault.default) {
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
         console.log(numPages);
         // Page 1, more pages
-        if (currentPage === 1 && numPages > 1) return "page 1 of many";
+        if (currentPage === 1 && numPages > 1) return `
+        <button class="btn--inline pagination__btn--next">
+            <span>Page 2</span>
+            <svg class="search__icon">
+                <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
+            </svg>
+        </button>
+      `;
         // Last page
         if (currentPage === numPages && numPages > 1) return `
         <button class="btn--inline pagination__btn--prev">
@@ -3242,9 +3249,22 @@ class PaginationView extends (0, _viewDefault.default) {
             <span>Page ${currentPage - 1}</span>
         </button>`;
         // Other page
-        if (currentPage < numPages) return "other page";
+        if (currentPage < numPages) return `
+        <button class="btn--inline pagination__btn--next">
+            <span>Page ${currentPage + 1}</span>
+            <svg class="search__icon">
+                <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
+            </svg>
+        </button>
+        <button class="btn--inline pagination__btn--prev">
+            <svg class="search__icon">
+                <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
+            </svg>
+            <span>Page ${currentPage - 1}</span>
+        </button>
+      `;
         // Page 1, only 1 page
-        return "only 1 page";
+        return "";
     }
 }
 exports.default = new PaginationView();
