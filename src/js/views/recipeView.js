@@ -14,6 +14,16 @@ class RecipeView extends View {
     );
   }
 
+  addHandlerUpdateServings(handler) {
+    this._parentElement.addEventListener('click', function (event) {
+      const btn = event.target.closest('.btn--tiny');
+      if (!btn) return;
+
+      console.log(btn);
+      handler();
+    });
+  }
+
   _generateMarkup() {
     return `
       <figure class="recipe__fig">
