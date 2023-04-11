@@ -606,7 +606,8 @@ const controlServings = function(newServings) {
     // Update recipe servings in state
     _model.updateServings(newServings);
     // Update recipe view
-    (0, _recipeViewDefault.default).render(_model.state.recipe);
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -3147,6 +3148,18 @@ class View {
         const markup = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            console.log(curEl, newEl.isEqualNode(curEl));
+        });
     }
     _clear() {
         this._parentElement.innerHTML = "";
