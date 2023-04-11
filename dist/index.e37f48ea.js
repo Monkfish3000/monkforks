@@ -576,6 +576,8 @@ const controlRecipes = async function() {
         const id = window.location.hash.slice(1);
         if (!id) return;
         (0, _recipeViewDefault.default).renderSpinner();
+        // update results view to mark selected search result
+        (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
         // 1. loading recipe
         await _model.loadRecipe(id);
         // 2. rendering recipe
@@ -2659,7 +2661,6 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(state.recipe);
     } catch (error) {
         console.error(`🚧${error}🚧`);
         throw error;
@@ -3243,10 +3244,11 @@ class ResultsView extends (0, _viewDefault.default) {
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(result) {
+        const curId = window.location.hash.slice(1);
         const { id , image , title , publisher  } = result;
         return `
     <li class="preview">
-        <a class="preview__link" href="#${id}">
+        <a class="preview__link ${id === curId ? "preview__link--active" : ""}" href="#${id}">
           <figure class="preview__fig">
             <img src=${image} alt=${title} />
           </figure>
