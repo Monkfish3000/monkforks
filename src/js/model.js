@@ -38,7 +38,6 @@ export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
     const data = await getJSON(`${API_URL}?search=${query}`);
-    console.log(data);
 
     state.search.results = data.data.recipes.map((recipe) => {
       return {
@@ -48,6 +47,7 @@ export const loadSearchResults = async function (query) {
         image: recipe.image_url,
       };
     });
+    state.search.page = 1;
   } catch (error) {
     console.error(`🚧${error}🚧`);
     throw error;
