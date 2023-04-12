@@ -63,8 +63,13 @@ const controlServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
-  model.addBookMark(model.state.recipe);
-  console.log(model.state.recipe);
+  if (!model.state.recipe.bookmarked) {
+    model.addBookMark(model.state.recipe);
+  } else {
+    model.removeBookMark(model.state.recipe.id);
+  }
+
+  recipeView.update(model.state.recipe);
 };
 
 const init = function () {
