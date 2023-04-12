@@ -425,7 +425,6 @@ body {
   height: 100%;
   width: 100%;
   opacity: .4;
-  background-image: linear-gradient(to bottom right, #9062e3, #4a3380);
   display: block;
   position: absolute;
   top: 0;
@@ -541,7 +540,6 @@ body {
   height: 100%;
   width: 100%;
   opacity: .6;
-  background-image: linear-gradient(to bottom right, #9062e3, #4a3380);
   display: block;
   position: absolute;
   top: 0;
