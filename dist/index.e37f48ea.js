@@ -2735,6 +2735,10 @@ const init = function() {
 };
 init();
 console.log(state.bookmarks);
+// for debugging
+const clearBookmarks = function() {
+    localStorage.clear("bookmarks");
+}; // clearBookmarks()
 
 },{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E","./views/recipeView":"l60JC"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
