@@ -627,6 +627,7 @@ const controlBookmarks = function() {
 const controlAddRecipe = async function(newRecipe) {
     try {
         await _model.uploadRecipe(newRecipe);
+        console.log(_model.state.recipe);
     } catch (error) {
         console.log("⚠️", error);
         (0, _addRecipeViewDefault.default).renderError(error.message);
@@ -2675,20 +2676,23 @@ const state = {
     },
     bookmarks: []
 };
+const createRecipeObject = function(data) {
+    const { recipe  } = data.data;
+    return {
+        id: recipe.id,
+        title: recipe.title,
+        publisher: recipe.publisher,
+        sourceUrl: recipe.source_url,
+        image: recipe.image_url,
+        servings: recipe.servings,
+        cookingTime: recipe.cooking_time,
+        ingredients: recipe.ingredients
+    };
+};
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}${id}`);
-        const { recipe  } = data.data;
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
+        state.recipe = createRecipeObject(data);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
     } catch (error) {
@@ -2773,7 +2777,7 @@ const uploadRecipe = async function(newRecipe) {
         };
         console.log(recipe);
         const data = await (0, _helpers.sendJSON)(`${(0, _config.API_URL)}?key=${(0, _config.API_KEY)}`, recipe);
-        console.log(data);
+        state.recipe = createRecipeObject(data);
     } catch (error) {
         throw error;
     }
