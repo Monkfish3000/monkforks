@@ -94,6 +94,12 @@ const controlAddRecipe = async function (newRecipe) {
     // Recipe upload success message
     addRecipeView.renderMessage();
 
+    // Show bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change URL
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
     // close the modal
     setTimeout(function () {
       addRecipeView.toggleWindow();
