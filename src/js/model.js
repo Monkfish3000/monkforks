@@ -1,7 +1,5 @@
-import { async } from 'regenerator-runtime';
 import { API_URL, API_KEY, RES_PER_PAGE } from './config';
-import { getJSON, sendJSON } from './helpers';
-import recipeView from './views/recipeView';
+import { AJAX } from './helpers';
 
 export const state = {
   recipe: {},
@@ -31,7 +29,7 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}`);
     state.recipe = createRecipeObject(data);
 
     if (state.bookmarks.some((bookmark) => bookmark.id === id))
@@ -46,7 +44,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${API_KEY}`);
 
     state.search.results = data.data.recipes.map((recipe) => {
       return {
@@ -54,6 +52,7 @@ export const loadSearchResults = async function (query) {
         title: recipe.title,
         publisher: recipe.publisher,
         image: recipe.image_url,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
     state.search.page = 1;
@@ -122,7 +121,7 @@ export const uploadRecipe = async function (newRecipe) {
     const ingredients = Object.entries(newRecipe)
       .filter((entry) => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map((ing) => {
-        const ingArr = ing[1].replaceAll(' ', '').split(',');
+        const ingArr = ing[1].split(',').map((ing) => ing.trim());
         if (ingArr.length !== 3)
           throw new Error(
             'Wrong ingredient format! Please use correct format.'
@@ -144,7 +143,7 @@ export const uploadRecipe = async function (newRecipe) {
     };
 
     console.log(recipe);
-    const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookMark(state.recipe);
   } catch (error) {
