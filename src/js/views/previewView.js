@@ -19,8 +19,15 @@ class PreviewView extends View {
           </figure>
             <div class="preview__data">
                 <h4 class="preview__title">${title}</h4>
-                <p class="preview__publisher">${publisher}</p>
-          </div>
+                  <p class="preview__publisher">${publisher}</p>
+                <div class="recipe__user-generated ${
+                  this._data.key ? '' : 'hidden'
+                }">
+                  <svg>
+                    <use href="${icons}#icon-user"></use>
+                  </svg>
+                </div>
+            </div>
         </a>
     </li>
 `;

@@ -1,7 +1,5 @@
-import { async } from 'regenerator-runtime';
 import { API_URL, API_KEY, RES_PER_PAGE } from './config';
 import { AJAX } from './helpers';
-import recipeView from './views/recipeView';
 
 export const state = {
   recipe: {},
@@ -54,6 +52,7 @@ export const loadSearchResults = async function (query) {
         title: recipe.title,
         publisher: recipe.publisher,
         image: recipe.image_url,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
     state.search.page = 1;

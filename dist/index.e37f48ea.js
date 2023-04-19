@@ -2675,11 +2675,8 @@ parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookMark", ()=>addBookMark);
 parcelHelpers.export(exports, "removeBookMark", ()=>removeBookMark);
 parcelHelpers.export(exports, "uploadRecipe", ()=>uploadRecipe);
-var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 var _helpers = require("./helpers");
-var _recipeView = require("./views/recipeView");
-var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
 const state = {
     recipe: {},
     search: {
@@ -2726,7 +2723,10 @@ const loadSearchResults = async function(query) {
                 id: recipe.id,
                 title: recipe.title,
                 publisher: recipe.publisher,
-                image: recipe.image_url
+                image: recipe.image_url,
+                ...recipe.key && {
+                    key: recipe.key
+                }
             };
         });
         state.search.page = 1;
@@ -2801,7 +2801,7 @@ const uploadRecipe = async function(newRecipe) {
     }
 };
 
-},{"regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E","./views/recipeView":"l60JC"}],"k5Hzs":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
@@ -2955,7 +2955,11 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
         </div>
 
-        <div class="recipe__user-generated"></div>
+        <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+          <svg>
+            <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+          </svg>
+        </div>
         <button class="btn--round btn--bookmark">
           <svg class="">
             <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
@@ -3426,8 +3430,13 @@ class PreviewView extends (0, _viewDefault.default) {
           </figure>
             <div class="preview__data">
                 <h4 class="preview__title">${title}</h4>
-                <p class="preview__publisher">${publisher}</p>
-          </div>
+                  <p class="preview__publisher">${publisher}</p>
+                <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+                  <svg>
+                    <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                  </svg>
+                </div>
+            </div>
         </a>
     </li>
 `;
