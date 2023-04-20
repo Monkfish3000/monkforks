@@ -3,3 +3,9 @@
 
 #parcel
 .parcel-cache
+
+# dist
+dist
+
+#DS_Store
+.DS_Store
